@@ -16,13 +16,15 @@ def record_audio(ask = False):
 		audio = r.listen(source)
 		try:
 			voice_data = r.recognize_google(audio)
-		except sr.UnkownValueError:
-			dexter_speak('sorry, I didnot get that')
+		except Exception as E:
+			print(E)
+			dexter_speak('sorry, I did not get that')
 		except sr.RequestError:
 			dexter_speak('Sorry, my speech service is down')
-		return voice_data
+	return voice_data
 
 def respond(voice_data):
+
 	if 'what is your name' in voice_data:
 		dexter_speak("hey! My name is dexter")
 
@@ -52,9 +54,13 @@ def dexter_speak(audio_string):
 time.sleep(1)
 dexter_speak("Hi! How can I help you??")
 while 1:
-		voice_data = record_audio()
-		print(voice_data)
-		respond(voice_data)
+		try:
+		    voiceData = record_audio()
+		    print(voiceData)
+		
+		    respond(voiceData)
+		except Exception as E:
+			print(E)
 
 
 
